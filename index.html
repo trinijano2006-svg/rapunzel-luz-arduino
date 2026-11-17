@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lámpara de Rapunzel</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", sans-serif;
+  background: linear-gradient(
+    180deg,
+    #4b2168 0%,
+    #6d3b91 45%,
+    #8f5bb2 100%
+  );
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 45px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 28px;
+  padding: 35px;
+  box-shadow: 0 12px 35px rgba(32,10,47,0.35);
+  backdrop-filter: blur(8px);
+  position: relative;
+}
+
+h1 {
+  text-align: center;
+  font-size: 42px;
+  color: #ffe8a3;
+  text-shadow: 0 0 15px #dca64b;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #f7ebff;
+  margin-bottom: 30px;
+}
+
+.sun-symbol {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  border: 4px solid #ffd66d;
+  position: relative;
+  box-shadow: 0 0 25px #c99548;
+}
+
+.sun-symbol::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border: 4px solid #ffd66d;
+  border-radius: 50%;
+}
+
+.sun-symbol::after {
+  content: "☀";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 46px;
+  color: #ffd66d;
+}
+
+.phrase-box {
+  text-align: center;
+  background: rgba(255,239,179,0.15);
+  border: 1px solid #dfc484;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 30px;
+}
+
+.phrase-label {
+  color: #f7ddff;
+  margin-bottom: 10px;
+}
+
+.phrase {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffe8a3;
+  text-shadow: 0 0 12px #b88d48;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+button {
+  border: none;
+  padding: 15px 23px;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#conectar {
+  background: linear-gradient(135deg,#f6d46f,#f1b94c);
+  color: #4c235d;
+}
+
+#escuchar {
+  background: linear-gradient(135deg,#d7b1ff,#b57cf3);
+  color: white;
+}
+
+#detener {
+  background: linear-gradient(135deg,#ffb8c6,#ff85a2);
+  color: #5a1d35;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.status-box {
+  background: rgba(255,255,255,0.12);
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.status-title {
+  color: #ead8ff;
+  margin-bottom: 8px;
+}
+
+.status-text {
+  color: #fff2ba;
+  font-weight: bold;
+}
+
+.heard-box {
+  text-align: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.heard-label {
+  color: #ead8ff;
+  margin-bottom: 10px;
+}
+
+.heard-text {
+  color: #ffe8a3;
+  font-size: 21px;
+  font-weight: bold;
+  min-height: 28px;
+}
+
+.big-message {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff2b8;
+  min-height: 35px;
+  margin: 25px 0;
+}
+
+.lantern {
+  position: absolute;
+  width: 55px;
+  height: 75px;
+  background: linear-gradient(#ffe699,#ffc85b);
+  border-radius: 8px 8px 18px 18px;
+  opacity: 0.35;
+  box-shadow: 0 0 30px #ffc85b;
+  animation: flotar 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.lantern::after {
+  content: "☀";
+  color: #b67c32;
+  font-size: 27px;
+  position: absolute;
+  top: 21px;
+  left: 13px;
+}
+
+.lantern.one {
+  top: 70px;
+  left: 40px;
+}
+
+.lantern.two {
+  top: 190px;
+  right: 60px;
+  animation-delay: 2s;
+}
+
+.lantern.three {
+  bottom: 70px;
+  left: 80px;
+  animation-delay: 3s;
+}
+
+.lantern.four {
+  bottom: 170px;
+  right: 30px;
+  animation-delay: 1s;
+}
+
+@keyframes flotar {
+  0%,100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* MINI PASCAL */
+
+.pascal-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 15px;
+  padding-right: 20px;
+}
+
+.pascal {
+  width: 110px;
+  height: 75px;
+  background: #75d668;
+  border-radius: 60px 60px 45px 45px;
+  position: relative;
+  transform: rotate(-6deg);
+}
+
+.pascal::before {
+  content: "";
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background: #75d668;
+  border-radius: 50%;
+  top: -12px;
+  left: 12px;
+}
+
+.pascal::after {
+  content: "";
+  position: absolute;
+  width: 43px;
+  height: 43px;
+  border: 8px solid #75d668;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  right: -18px;
+  bottom: -10px;
+}
+
+.eye {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  z-index: 3;
+}
+
+.eye.left {
+  left: 20px;
+}
+
+.eye.right {
+  left: 40px;
+}
+
+.eye::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: black;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+}
+
+.pascal-label {
+  color: #dfffd8;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* NOMBRES DEL PROYECTO */
+
+.creators {
+  text-align: center;
+  margin-top: 35px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,232,163,0.3);
+}
+
+.creators-small {
+  color: #ffe8a3;
+  font-size: 17px;
+  letter-spacing: 2px;
+}
+
+.creators-names {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffe8a3;
+  margin: 14px 0;
+  text-shadow: 0 0 12px rgba(255,210,110,0.4);
+}
+
+.creators-description {
+  font-size: 14px;
+  color: #ead8ff;
+}
+
+.glow {
+  background: rgba(255,221,123,0.18);
+  box-shadow: 0 0 25px rgba(255,223,122,0.3);
+}
+
+@media (max-width: 650px) {
+  h1 {
+    font-size: 29px;
+  }
+
+  .phrase {
+    font-size: 23px;
+  }
+
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .creators-names {
+    font-size: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="lantern one"></div>
+<div class="lantern two"></div>
+<div class="lantern three"></div>
+<div class="lantern four"></div>
+
+<div class="container">
+<div class="card">
+
+  <div class="sun-symbol"></div>
+
+  <h1>✨ Lámpara de Rapunzel ✨</h1>
+
+  <p class="subtitle">
+    Una luz mágica que despierta con tu voz
+  </p>
+
+  <div class="phrase-box">
+    <div class="phrase-label">
+      Di la frase mágica:
+    </div>
+
+    <div class="phrase">
+      “Ahora veo la luz”
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button id="conectar">Conectar Arduino</button>
+    <button id="escuchar">Activar micrófono</button>
+    <button id="detener">Detener</button>
+  </div>
+
+  <div class="status-grid">
+
+    <div class="status-box" id="arduinoBox">
+      <div class="status-title">Estado Arduino</div>
+      <div class="status-text" id="estadoArduino">
+        Esperando conexión...
+      </div>
+    </div>
+
+    <div class="status-box" id="microfonoBox">
+      <div class="status-title">Estado micrófono</div>
+      <div class="status-text" id="estadoMicrofono">
+        Micrófono inactivo
+      </div>
+    </div>
+
+  </div>
+
+  <div class="heard-box">
+    <div class="heard-label">
+      Última frase escuchada:
+    </div>
+
+    <div class="heard-text" id="fraseEscuchada">
+      —
+    </div>
+  </div>
+
+  <div class="big-message" id="mensajeGrande">
+    Esperando la frase mágica...
+  </div>
+
+  <div class="pascal-area">
+    <div class="pascal-label">Mini Pascal 💚</div>
+    <div class="pascal">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+    </div>
+  </div>
+
+  <div class="creators">
+    <div class="creators-small">
+      ✨ UN PROYECTO DE ✨
+    </div>
+
+    <div class="creators-names">
+      Trinidad Jano & Agustina Espinoza
+    </div>
+
+    <div class="creators-description">
+      Lámpara interactiva inspirada en Rapunzel
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+let puerto;
+let escritor;
+let activo = false;
+let iluminando = false;
+
+const estadoArduino =
+  document.getElementById("estadoArduino");
+
+const estadoMicrofono =
+  document.getElementById("estadoMicrofono");
+
+const fraseEscuchada =
+  document.getElementById("fraseEscuchada");
+
+const mensajeGrande =
+  document.getElementById("mensajeGrande");
+
+const arduinoBox =
+  document.getElementById("arduinoBox");
+
+const microfonoBox =
+  document.getElementById("microfonoBox");
+
+const Reconocimiento =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+let voz;
+
+if (Reconocimiento) {
+  voz = new Reconocimiento();
+  voz.lang = "es-CL";
+  voz.continuous = true;
+  voz.interimResults = false;
+}
+
+function normalizarTexto(texto) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+const pausa = ms =>
+  new Promise(resolve => setTimeout(resolve, ms));
+
+document.getElementById("conectar").onclick = async () => {
+  try {
+    puerto = await navigator.serial.requestPort();
+    await puerto.open({ baudRate: 9600 });
+
+    escritor = puerto.writable.getWriter();
+
+    estadoArduino.textContent = "Arduino conectado 💡";
+    arduinoBox.classList.add("glow");
+    mensajeGrande.textContent =
+      "Arduino listo. Activa el micrófono ✨";
+
+  } catch (error) {
+    estadoArduino.textContent = "Error al conectar";
+    mensajeGrande.textContent =
+      "No se pudo conectar el Arduino";
+    console.error(error);
+  }
+};
+
+document.getElementById("escuchar").onclick = () => {
+  if (!escritor) {
+    mensajeGrande.textContent =
+      "Primero conecta el Arduino";
+    return;
+  }
+
+  if (!voz) {
+    mensajeGrande.textContent =
+      "El navegador no admite reconocimiento de voz";
+    return;
+  }
+
+  activo = true;
+
+  try {
+    voz.start();
+  } catch (error) {
+    console.error(error);
+  }
+
+  estadoMicrofono.textContent = "Escuchando...";
+  microfonoBox.classList.add("glow");
+
+  mensajeGrande.textContent =
+    "Di: Ahora veo la luz 🎤";
+};
+
+document.getElementById("detener").onclick = async () => {
+  activo = false;
+
+  if (voz) {
+    voz.stop();
+  }
+
+  estadoMicrofono.textContent = "Micrófono detenido";
+  microfonoBox.classList.remove("glow");
+  mensajeGrande.textContent = "Escucha detenida";
+
+  while (iluminando) {
+    await pausa(50);
+  }
+
+  if (escritor) {
+    await escritor.write(new Uint8Array([48]));
+  }
+};
+
+if (voz) {
+  voz.onresult = async (evento) => {
+    for (let i = evento.resultIndex;
+         i < evento.results.length; i++) {
+
+      if (!evento.results[i].isFinal) continue;
+
+      let frase = evento.results[i][0].transcript;
+      fraseEscuchada.textContent = frase;
+
+      let fraseNormalizada = normalizarTexto(frase);
+
+      if (fraseNormalizada.includes("ahora veo la luz")) {
+
+        if (!escritor || iluminando || !activo) continue;
+
+        iluminando = true;
+
+        estadoMicrofono.textContent =
+          "¡Frase reconocida! ✨";
+
+        mensajeGrande.textContent =
+          "🌟 ¡Ahora veo la luz! 🌟";
+
+        try {
+          for (let j = 0; j < 25; j++) {
+            await escritor.write(new Uint8Array([49]));
+            await pausa(120);
+          }
+
+          await escritor.write(new Uint8Array([48]));
+
+        } catch (error) {
+          console.error(error);
+        } finally {
+          iluminando = false;
+        }
+
+      } else {
+        if (!iluminando) {
+          mensajeGrande.textContent =
+            "Esa no era la frase mágica...";
+        }
+      }
+    }
+  };
+
+  voz.onend = () => {
+    if (activo) {
+      setTimeout(() => {
+        if (activo) {
+          try {
+            voz.start();
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }, 400);
+    }
+  };
+
+  voz.onerror = (error) => {
+    console.error(error);
+    if (error.error === "not-allowed") {
+      activo = false;
+      estadoMicrofono.textContent =
+        "Permite el acceso al micrófono";
+    }
+  };
+}
+</script>
+
+</body>
+</html>
