@@ -57,33 +57,21 @@ h1 {
   margin-bottom: 30px;
 }
 
-.sun-symbol {
-  width: 110px;
-  height: 110px;
-  margin: 0 auto 25px;
-  border-radius: 50%;
-  border: 4px solid #ffd66d;
-  position: relative;
-  box-shadow: 0 0 25px #c99548;
-}
-
-.sun-symbol::before {
-  content: "";
-  position: absolute;
-  inset: 20px;
-  border: 4px solid #ffd66d;
-  border-radius: 50%;
-}
-
-.sun-symbol::after {
-  content: "☀";
-  position: absolute;
-  inset: 0;
+/* SOL DE CORONA CON LLAMAS PUNTIAGUDAS */
+.sun-container {
+  width: 175px;
+  height: 175px;
+  margin: 0 auto 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 46px;
-  color: #ffd66d;
+  filter: drop-shadow(0 0 18px rgba(255, 214, 109, 0.55));
+}
+
+.sun-container svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
 .phrase-box {
@@ -417,7 +405,46 @@ button:disabled {
 <div class="container">
 <div class="card">
 
-  <div class="sun-symbol"></div>
+  <!-- SOL DE RAPUNZEL CON RAYOS ONDULADOS REALES -->
+  <div class="sun-container">
+    <svg viewBox="-120 -120 240 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="rapunzelGold" cx="45%" cy="45%" r="60%">
+          <stop offset="0%" stop-color="#fff6a3"/>
+          <stop offset="55%" stop-color="#ffd53d"/>
+          <stop offset="100%" stop-color="#d89216"/>
+        </radialGradient>
+        <!-- Rayo largo ondulado -->
+        <path id="rayoLargo" d="M -14,-56 C -16,-78 -3,-92 -6,-115 C 6,-96 18,-76 14,-56 Z" fill="url(#rapunzelGold)"/>
+        <!-- Rayo corto ondulado intercalado -->
+        <path id="rayoCorto" d="M -9,-56 C -11,-68 -3,-76 -5,-88 C 4,-77 11,-67 9,-56 Z" fill="url(#rapunzelGold)"/>
+      </defs>
+
+      <!-- 8 Rayos largos cada 45 grados -->
+      <use href="#rayoLargo" transform="rotate(0)"/>
+      <use href="#rayoLargo" transform="rotate(45)"/>
+      <use href="#rayoLargo" transform="rotate(90)"/>
+      <use href="#rayoLargo" transform="rotate(135)"/>
+      <use href="#rayoLargo" transform="rotate(180)"/>
+      <use href="#rayoLargo" transform="rotate(225)"/>
+      <use href="#rayoLargo" transform="rotate(270)"/>
+      <use href="#rayoLargo" transform="rotate(315)"/>
+
+      <!-- 8 Rayos cortos intercalados -->
+      <use href="#rayoCorto" transform="rotate(22.5)"/>
+      <use href="#rayoCorto" transform="rotate(67.5)"/>
+      <use href="#rayoCorto" transform="rotate(112.5)"/>
+      <use href="#rayoCorto" transform="rotate(157.5)"/>
+      <use href="#rayoCorto" transform="rotate(202.5)"/>
+      <use href="#rayoCorto" transform="rotate(247.5)"/>
+      <use href="#rayoCorto" transform="rotate(292.5)"/>
+      <use href="#rayoCorto" transform="rotate(337.5)"/>
+
+      <!-- Anillo separador morado y centro dorado -->
+      <circle cx="0" cy="0" r="56" fill="#5b287a"/>
+      <circle cx="0" cy="0" r="46" fill="url(#rapunzelGold)"/>
+    </svg>
+  </div>
 
   <h1>✨ Lámpara de Rapunzel ✨</h1>
 
