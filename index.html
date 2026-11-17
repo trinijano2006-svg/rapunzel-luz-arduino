@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -150,6 +149,31 @@ button:disabled {
   color: #5a1d35;
 }
 
+.youtube-container {
+  text-align: center;
+  margin: 25px 0 10px;
+}
+
+.btn-youtube {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ff5e62, #ff9966);
+  color: white;
+  text-decoration: none;
+  padding: 14px 26px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(255, 94, 98, 0.4);
+  transition: 0.25s;
+}
+
+.btn-youtube:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 94, 98, 0.6);
+}
+
 .status-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -256,8 +280,6 @@ button:disabled {
   }
 }
 
-/* MINI PASCAL */
-
 .pascal-area {
   display: flex;
   flex-direction: column;
@@ -333,8 +355,6 @@ button:disabled {
   font-size: 14px;
   margin-bottom: 15px;
 }
-
-/* NOMBRES DEL PROYECTO */
 
 .creators {
   text-align: center;
@@ -451,6 +471,12 @@ button:disabled {
 
   <div class="big-message" id="mensajeGrande">
     Esperando la frase mágica...
+  </div>
+
+  <div class="youtube-container">
+    <a href="https://youtube.com/shorts/eJa8s7EASR0" target="_blank" class="btn-youtube">
+      ▶ Ver video del proyecto en YouTube ✨
+    </a>
   </div>
 
   <div class="pascal-area">
